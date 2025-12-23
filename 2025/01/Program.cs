@@ -1,51 +1,50 @@
-﻿string[] input = File.ReadAllLines("./input.txt");
-int dial = 50;
-int count = 0;
+﻿// Parte 1
 
-foreach (string str in input)
+void Parte1(string filename)
 {
-    string direction = str.Substring(0, 1);
-    string value;
+    string[] input = File.ReadAllLines(filename);
+    int dial = 50;
+    int count = 0;
 
-    if(str.Length > 2)
+    foreach (string str in input)
     {
-        value = str.Substring(1,2);
-    }
-    else
-    {
-        value = str.Substring(1,1);
-    }
+        string direction = str.Substring(0, 1);
+        string value;
 
-    int intValue = Int32.Parse(value);
+        value = str.Substring(1);
 
-    Console.WriteLine($"Dial: {dial}\nRotation: {direction}\nValue: {intValue}");
+        int intValue = Int32.Parse(value);
 
-    if(String.Compare(direction, "R") == 0)
-    {
-        dial += intValue;
+        Console.WriteLine($"Dial: {dial}\nRotation: {direction}\nValue: {intValue}");
 
-        if(dial > 99)
+        if(String.Compare(direction, "R") == 0)
         {
-            dial -= 100;
-        }
-    }
-    if(String.Compare(direction, "L") == 0)
-    {
-        dial -= intValue;
+            dial += intValue;
 
-        if(dial < 0)
+            dial %= 100;
+        }
+        if(String.Compare(direction, "L") == 0)
         {
-            dial += 100;
+            dial -= intValue;
+
+            while(dial < 0)
+            {
+                dial += 100;
+            }
         }
+
+        if(dial == 0)
+        {
+            count++;
+        }
+
+        Console.WriteLine($"Resultado: {dial}\n");
+
     }
 
-    if(dial == 0)
-    {
-        count++;
-    }
-
-    Console.WriteLine($"Resultado: {dial}\n");
-
+    Console.WriteLine($"\nVezes que dial == 0: {count}");
 }
 
-Console.WriteLine($"\nVezes que dial == 0: {count}");
+Parte1("input.txt");
+
+// Parte 2
